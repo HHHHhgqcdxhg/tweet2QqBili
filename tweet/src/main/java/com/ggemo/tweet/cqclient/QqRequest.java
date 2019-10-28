@@ -28,7 +28,7 @@ public class QqSender {
     @Autowired
     RedisUtil redisUtil;
 
-    @Value("http://${qqServer.host}:${port}/")
+    @Value("http://${qqServer.host}:${qqServer.port}/")
     String baseUrl;
 
     @Value("${qqServer.accessToken}")
