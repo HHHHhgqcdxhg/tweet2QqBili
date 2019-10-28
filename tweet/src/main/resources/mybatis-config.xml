@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <mappers>
+        <!-- 请按照字母升序排列下方mapper文件，与Project视图中显示的顺序一致 -->
+        <mapper resource="mybatis-mappers/BiliAccountDAO.xml"/>
+        <mapper resource="mybatis-mappers/QqGroupInfoDAO.xml"/>
+        <mapper resource="mybatis-mappers/Tweet2qqDAO.xml"/>
+        <mapper resource="mybatis-mappers/Tweet2biliDAO.xml"/>
+        <mapper resource="mybatis-mappers/TweetInfoDAO.xml"/>
+    </mappers>
+</configuration>
