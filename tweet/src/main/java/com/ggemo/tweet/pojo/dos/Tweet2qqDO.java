@@ -311,4 +311,18 @@ public class Tweet2qqDO implements Serializable {
         map.put("format", format);
         return map;
     }
+
+    public static Tweet2qqDO fromMap(Map<Object, Object> map){
+        Tweet2qqDO tweet2qqDO = new Tweet2qqDO();
+        tweet2qqDO.setTweetId((String) map.get("tweetId"));
+        tweet2qqDO.setQqGroupId((Integer) map.get("qqGroupId"));
+        tweet2qqDO.setFollow((Integer) map.get("follow"));
+        tweet2qqDO.setTweetNickName((String) map.get("tweetNickName"));
+        tweet2qqDO.setTrans((Integer) map.get("trans"));
+        tweet2qqDO.setSendRt((Integer) map.get("sendRt"));
+        tweet2qqDO.setMediaOnly((Integer) map.get("mediaOnly"));
+        tweet2qqDO.setOrder((Integer) map.get("order_"));
+        tweet2qqDO.setFormat((String) map.get("format"));
+        return tweet2qqDO;
+    }
 }

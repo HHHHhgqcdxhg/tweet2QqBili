@@ -12,9 +12,12 @@ class TweetApplicationRunner implements org.springframework.boot.ApplicationRunn
     @Autowired
     LoadFromMysql loadFromMysql;
 
+    @Autowired
+    StartTweet startTweet;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        loadFromMysql.loadAll();
+        startTweet.run();
     }
 
 

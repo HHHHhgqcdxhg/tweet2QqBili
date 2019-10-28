@@ -63,11 +63,11 @@ public class LoadFromMysql {
         for (BiliAccountDO biliAccountDO : biliAccountDOS) {
             String cookie = biliAccountDO.getCookie();
             List<Map<String, Object>> cookieList = (List<Map<String, Object>>) JSON.parse(cookie);
-            Map<String, Object> realCookies = new HashMap<>();
+            StringBuilder realCookies = new StringBuilder();
             for (Map<String, Object> map : cookieList) {
-                realCookies.put((String) map.get("name"), map.get("value"));
+                realCookies.append(((String) map.get("name")).strip()).append("=").append(((String) map.get("value")).strip()).append(";");
             }
-            redisUtil.hSet("bili_cookie_" + biliAccountDO.getBiliId(), realCookies);
+            redisUtil.set(String.format("bili_cookie_%d", biliAccountDO.getBiliId()), realCookies.toString());
         }
         redisUtil.exec();
     }
@@ -87,8 +87,8 @@ public class LoadFromMysql {
 
     public void loadAll() {
         redisUtil.multi();
-        redisUtil.flushAll();
 
+        redisUtil.flushAll();
         loadFollowTweetList();
         loadFollowQqGroups();
         loadBiliAccount();
