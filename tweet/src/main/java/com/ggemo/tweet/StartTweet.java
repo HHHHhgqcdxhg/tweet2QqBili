@@ -1,15 +1,13 @@
 package com.ggemo.tweet;
 
 import com.ggemo.tweet.common.util.RedisUtil;
-import com.ggemo.tweet.tweet.StatusListener;
+import com.ggemo.tweet.tweet.MyStatusListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import twitter4j.FilterQuery;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,17 +16,27 @@ public class StartTweet {
     @Autowired
     RedisUtil redisUtil;
 
-    public void run() {
-        Set<Object> follows = redisUtil.sGet("tweets");
-        Set<Long> followsSet = follows.stream().map((x)->Long.parseLong((String)x)).collect(Collectors.toSet());
-        String[] followsArray = new String[follows.size()];
-        followsArray = follows.toArray(followsArray);
+    @Autowired
+    MyStatusListener myStatusListener;
 
+    public void listen() {
+        Set<Object> follows = redisUtil.sGet("tweets");
+
+        Set<Long> followsSet = follows.stream().map((x)->Long.parseLong((String)x)).collect(Collectors.toSet());
+        myStatusListener.setFollows(followsSet);
+
+        long[] followArray = new long[followsSet.size()];
+        int i = 0;
+        for (Long aLong : followsSet) {
+            followArray[i] = aLong;
+            i += 1;
+        }
         TwitterStream stream = new TwitterStreamFactory().getInstance();
-        stream.addListener(new StatusListener(followsSet));
-        FilterQuery filterQuery = new FilterQuery(followsArray);
+
+        FilterQuery filterQuery = new FilterQuery();
+        filterQuery.follow(followArray);
+        stream = stream.addListener(myStatusListener);
         stream.filter(filterQuery);
-        stream.sample();
     }
 
 }
