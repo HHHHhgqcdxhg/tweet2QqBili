@@ -1,11 +1,11 @@
 package com.ggemo.tweet;
 
 import com.ggemo.tweet.cqclient.QqMq;
-import com.ggemo.tweet.cqclient.QqRequest;
 import com.ggemo.tweet.cqclient.QqRequestService;
 import com.ggemo.tweet.refreshredis.LoadFromMysql;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

@@ -1,19 +1,19 @@
 package com.ggemo.tweet.cqclient;
 
+import com.ggemo.cqhttpclient.CqHttpClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Slf4j
 @Component
 public class QqRequestService {
-    @Autowired
-    QqRequest qqRequest;
 
     @Value("${qq.sendMsgTimeWait}")
     int qqSendMsgTimeWait;
@@ -21,10 +21,24 @@ public class QqRequestService {
     @Autowired
     QqMq qqMq;
 
-    public void run() {
-        while (true) {
+    @Value("${qqServer.baseurl}")
+    String baseUrl;
+
+    private CqHttpClient cqHttpClient;
+
+    @PostConstruct
+    public void init() {
+        this.cqHttpClient = new CqHttpClient(baseUrl);
+    }
+
+    private void run() {
+        for (; ; ) {
             QqMq.Task task = qqMq.take();
-            qqRequest.sendGroupMsg(task.getQqGroup(), task.getMessasg());
+            try {
+                cqHttpClient.sendGroupMsg(task.getQqGroup(), task.getMessasg());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             while (true) {
                 try {
                     Thread.sleep(qqSendMsgTimeWait);
@@ -38,7 +52,7 @@ public class QqRequestService {
     }
 
     public void start() {
-        ExecutorService pool = Executors.newSingleThreadExecutor((r)->{
+        ExecutorService pool = Executors.newSingleThreadExecutor((r) -> {
             Thread t = new Thread(r);
             t.setName("qqRequestServiceThread");
             return t;

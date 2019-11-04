@@ -1,5 +1,7 @@
 package com.ggemo.tweet;
 
+import com.ggemo.tweet.common.filter.Filter;
+import com.ggemo.tweet.common.filter.FollowFilter;
 import com.ggemo.tweet.common.util.RedisUtil;
 import com.ggemo.tweet.tweet.MyStatusListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,14 @@ public class StartTweet {
     @Autowired
     MyStatusListener myStatusListener;
 
+    @Autowired
+    FollowFilter followFilter;
+
     public void listen() {
         Set<Object> follows = redisUtil.sGet("tweets");
-
         Set<Long> followsSet = follows.stream().map((x)->Long.parseLong((String)x)).collect(Collectors.toSet());
-        myStatusListener.setFollows(followsSet);
+        followFilter.setFollows(followsSet);
+        myStatusListener.addFilter(followFilter);
 
         long[] followArray = new long[followsSet.size()];
         int i = 0;
