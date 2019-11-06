@@ -3,8 +3,10 @@ package com.ggemo.tweet;
 import com.ggemo.tweet.cqclient.QqMq;
 import com.ggemo.tweet.cqclient.QqRequestService;
 import com.ggemo.tweet.refreshredis.LoadFromMysql;
+import com.ggemo.tweet.translate.Translate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.core.annotation.Order;
@@ -26,18 +28,20 @@ class TweetApplicationRunner implements org.springframework.boot.ApplicationRunn
     @Autowired
     QqRequestService qqRequestService;
 
+    @Autowired
+    @Qualifier("BaiduTranslate")
+    Translate translate;
+
     @Override
     public void run(ApplicationArguments args) {
         log.info("run");
-//        loadFromMysql.loadAll();
-//        startTweet.listen();
-
-//        log.info("put");
-        qqRequestService.start();
-       qqMq.put(qqMq.new Task(119277816, "12345sadfsadf爱上杜甫"));
-       qqMq.put(qqMq.new Task(119277816, "12345sadfsadf爱上杜去去去甫"));
-        log.info("putted");
+        String text = "【公式四コマ】\n" +
+                "『アズールレーン びそくぜんしんっ！』39話・②\n" +
+                "「ニーミ、着せられるパターンが多い気がするです」\n" +
+                "「断ってもいいのに、結局着てしまうのね＞＜」\n" +
+                "「お人好しだから断れない……かも」\n" +
+                "次回掲載は11月5日（火）になります！";
+        String res = translate.translate(text);
+        log.info(res);
     }
-
-
 }
