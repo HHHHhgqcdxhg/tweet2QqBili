@@ -64,8 +64,6 @@ public class MD5 {
 
             return result;
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,11 +87,7 @@ public class MD5 {
             String result = byteArrayToHex(messagedigest.digest());
 
             return result;
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (NoSuchAlgorithmException | IOException e) {
             e.printStackTrace();
         }
 

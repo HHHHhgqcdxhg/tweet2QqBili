@@ -38,6 +38,7 @@ public class QqRequestService {
                 cqHttpClient.sendGroupMsg(task.getQqGroup(), task.getMessasg());
             } catch (IOException e) {
                 e.printStackTrace();
+                log.error("", e);
             }
             while (true) {
                 try {
@@ -45,7 +46,7 @@ public class QqRequestService {
                     break;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                    log.error(e.toString());
+                    log.error("", e);
                 }
             }
         }
