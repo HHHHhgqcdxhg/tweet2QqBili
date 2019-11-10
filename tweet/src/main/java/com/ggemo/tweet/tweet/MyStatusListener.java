@@ -1,12 +1,15 @@
 package com.ggemo.tweet.tweet;
 
+import com.ggemo.tweet.common.StatusWrapper;
 import com.ggemo.tweet.common.filter.Filter;
 import com.ggemo.tweet.common.handler.Handler;
 import com.ggemo.tweet.common.util.RedisUtil;
 import com.ggemo.tweet.cqclient.QqMq;
 import com.ggemo.tweet.pojo.dos.Tweet2qqDO;
+import com.ggemo.tweet.translate.Translate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import twitter4j.*;
 
@@ -29,6 +32,10 @@ public class MyStatusListener implements StatusListener {
     @Autowired
     private QqMq qqMq;
 
+    @Autowired
+    @Qualifier("BaiduTranslate")
+    Translate translate;
+
     public void addFilter(Filter filter){
         this.filters.add(filter);
     }
@@ -46,16 +53,17 @@ public class MyStatusListener implements StatusListener {
 
     @Override
     public void onStatus(Status status) {
-        User user = status.getUser();
-        long userId = user.getId();
+        StatusWrapper statusWrapper = new StatusWrapper(status,"");
         for (Filter filter : filters) {
-            if(!filter.filter(status)){
+            if(!filter.filter(statusWrapper)){
                 return;
             }
         }
 
+        String transed = translate.translate(status.getText());
+        statusWrapper.setTransed(transed);
         for (Handler handler : handlers) {
-            handler.handle(status);
+            handler.handle(statusWrapper);
         }
     }
 

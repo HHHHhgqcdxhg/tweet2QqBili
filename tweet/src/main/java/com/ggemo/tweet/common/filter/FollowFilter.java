@@ -1,5 +1,6 @@
 package com.ggemo.tweet.common.filter;
 
+import com.ggemo.tweet.common.StatusWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import twitter4j.Status;
@@ -16,7 +17,8 @@ public class FollowFilter implements Filter {
     }
 
     @Override
-    public boolean filter(Status status) {
+    public boolean filter(StatusWrapper statuswrapper) {
+        Status status = statuswrapper.getStatus();
         if(!follows.contains(status.getUser().getId())){
             log.info("FollowFilter未通过! userName: " + status.getUser().getName());
             return false;

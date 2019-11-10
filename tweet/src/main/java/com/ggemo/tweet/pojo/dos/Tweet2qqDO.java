@@ -27,7 +27,7 @@ public class Tweet2qqDO implements Serializable {
      *
      * @mbg.generated
      */
-    private Integer qqGroupId;
+    private Long qqGroupId;
 
     /**
      * Database Column Remarks:
@@ -118,7 +118,7 @@ public class Tweet2qqDO implements Serializable {
      *
      * @mbg.generated
      */
-    public Integer getQqGroupId() {
+    public Long getQqGroupId() {
         return qqGroupId;
     }
 
@@ -128,7 +128,7 @@ public class Tweet2qqDO implements Serializable {
      *
      * @mbg.generated
      */
-    public void setQqGroupId(Integer qqGroupId) {
+    public void setQqGroupId(Long qqGroupId) {
         this.qqGroupId = qqGroupId;
     }
 
@@ -299,7 +299,6 @@ public class Tweet2qqDO implements Serializable {
 
     public Map<String, Object> toMap(){
         Map<String, Object> map = new HashMap<>();
-        StringBuilder sb = new StringBuilder();
         map.put("tweetId", tweetId);
         map.put("qqGroupId", qqGroupId);
         map.put("follow", follow);
@@ -315,7 +314,7 @@ public class Tweet2qqDO implements Serializable {
     public static Tweet2qqDO fromMap(Map<Object, Object> map){
         Tweet2qqDO tweet2qqDO = new Tweet2qqDO();
         tweet2qqDO.setTweetId((String) map.get("tweetId"));
-        tweet2qqDO.setQqGroupId((Integer) map.get("qqGroupId"));
+        tweet2qqDO.setQqGroupId((Long) map.get("qqGroupId"));
         tweet2qqDO.setFollow((Integer) map.get("follow"));
         tweet2qqDO.setTweetNickName((String) map.get("tweetNickName"));
         tweet2qqDO.setTrans((Integer) map.get("trans"));

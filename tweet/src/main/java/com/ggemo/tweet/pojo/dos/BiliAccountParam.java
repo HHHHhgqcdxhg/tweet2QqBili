@@ -325,52 +325,52 @@ public class BiliAccountParam {
             return (Criteria) this;
         }
 
-        public Criteria andBiliIdEqualTo(Integer value) {
+        public Criteria andBiliIdEqualTo(Long value) {
             addCriterion("bili_id =", value, "biliId");
             return (Criteria) this;
         }
 
-        public Criteria andBiliIdNotEqualTo(Integer value) {
+        public Criteria andBiliIdNotEqualTo(Long value) {
             addCriterion("bili_id <>", value, "biliId");
             return (Criteria) this;
         }
 
-        public Criteria andBiliIdGreaterThan(Integer value) {
+        public Criteria andBiliIdGreaterThan(Long value) {
             addCriterion("bili_id >", value, "biliId");
             return (Criteria) this;
         }
 
-        public Criteria andBiliIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andBiliIdGreaterThanOrEqualTo(Long value) {
             addCriterion("bili_id >=", value, "biliId");
             return (Criteria) this;
         }
 
-        public Criteria andBiliIdLessThan(Integer value) {
+        public Criteria andBiliIdLessThan(Long value) {
             addCriterion("bili_id <", value, "biliId");
             return (Criteria) this;
         }
 
-        public Criteria andBiliIdLessThanOrEqualTo(Integer value) {
+        public Criteria andBiliIdLessThanOrEqualTo(Long value) {
             addCriterion("bili_id <=", value, "biliId");
             return (Criteria) this;
         }
 
-        public Criteria andBiliIdIn(List<Integer> values) {
+        public Criteria andBiliIdIn(List<Long> values) {
             addCriterion("bili_id in", values, "biliId");
             return (Criteria) this;
         }
 
-        public Criteria andBiliIdNotIn(List<Integer> values) {
+        public Criteria andBiliIdNotIn(List<Long> values) {
             addCriterion("bili_id not in", values, "biliId");
             return (Criteria) this;
         }
 
-        public Criteria andBiliIdBetween(Integer value1, Integer value2) {
+        public Criteria andBiliIdBetween(Long value1, Long value2) {
             addCriterion("bili_id between", value1, value2, "biliId");
             return (Criteria) this;
         }
 
-        public Criteria andBiliIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andBiliIdNotBetween(Long value1, Long value2) {
             addCriterion("bili_id not between", value1, value2, "biliId");
             return (Criteria) this;
         }

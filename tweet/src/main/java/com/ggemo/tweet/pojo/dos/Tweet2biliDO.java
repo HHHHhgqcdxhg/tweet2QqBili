@@ -29,7 +29,7 @@ public class Tweet2biliDO implements Serializable {
      *
      * @mbg.generated
      */
-    private Integer biliId;
+    private Long biliId;
 
     /**
      *
@@ -82,7 +82,7 @@ public class Tweet2biliDO implements Serializable {
      *
      * @mbg.generated
      */
-    public Integer getBiliId() {
+    public Long getBiliId() {
         return biliId;
     }
 
@@ -92,7 +92,7 @@ public class Tweet2biliDO implements Serializable {
      *
      * @mbg.generated
      */
-    public void setBiliId(Integer biliId) {
+    public void setBiliId(Long biliId) {
         this.biliId = biliId;
     }
 
@@ -185,5 +185,15 @@ public class Tweet2biliDO implements Serializable {
         map.put("trans", trans);
         map.put("format", format);
         return map;
+    }
+
+    public static Tweet2biliDO fromMap(Map<Object, Object> map){
+        Tweet2biliDO tweet2biliDO = new Tweet2biliDO();
+        tweet2biliDO.setTweetId((String) map.get("tweetId"));
+        tweet2biliDO.setBiliId((Long) map.get("biliId" ));
+        tweet2biliDO.setFollow((Integer) map.get("follow" ));
+        tweet2biliDO.setTrans((Integer) map.get("trans" ));
+        tweet2biliDO.setFormat((String) map.get("format" ));
+        return tweet2biliDO;
     }
 }

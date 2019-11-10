@@ -1,6 +1,7 @@
 package com.ggemo.tweet.refreshredis;
 
 import com.alibaba.fastjson.JSON;
+import com.ggemo.tweet.common.RedisKeysEnum;
 import com.ggemo.tweet.common.util.RedisUtil;
 import com.ggemo.tweet.pojo.dao.BiliAccountDAO;
 import com.ggemo.tweet.pojo.dao.Tweet2biliDAO;
@@ -34,31 +35,31 @@ public class LoadFromMysql {
 
     public void loadFollowTweetList() {
         redisUtil.multi();
-        redisUtil.del("tweets");
+        redisUtil.del(RedisKeysEnum.TWEETS.val());
         List<TweetInfoDO> tweetInfos = tweetInfoDAO.selectByParam(new TweetInfoParam());
         List<String> tweets = tweetInfos.stream().map(TweetInfoDO::getTweetId).collect(Collectors.toList());
         String[] tweetsArray = new String[tweets.size()];
         tweetsArray = tweets.toArray(tweetsArray);
-        redisUtil.sSet("tweets", (Object[]) tweetsArray);
+        redisUtil.sSet(RedisKeysEnum.TWEETS.val(), (Object[]) tweetsArray);
         redisUtil.exec();
     }
 
     public void loadFollowQqGroups() {
         redisUtil.multi();
-        redisUtil.delete("tweet_qq_*");
+        redisUtil.delete(RedisKeysEnum.TWEET_QQ_ALL.val());
         Tweet2qqParam tweet2qqParam = new Tweet2qqParam();
         tweet2qqParam.createCriteria().andFollowEqualTo(1);
         List<Tweet2qqDO> tweet2qqDOS = tweet2qqDAO.selectByParam(tweet2qqParam);
         for (Tweet2qqDO tweet2qqDO : tweet2qqDOS) {
-            redisUtil.hSet(String.format("tweet_qq_%s_%d", tweet2qqDO.getTweetId(), tweet2qqDO.getQqGroupId()), tweet2qqDO.toMap());
-            redisUtil.sSet(String.format("tweet_qq_%s", tweet2qqDO.getTweetId()), tweet2qqDO.getQqGroupId());
+            redisUtil.hSet(String.format(RedisKeysEnum.TWEET_QQ_TWEETID_GROUPID.val(), tweet2qqDO.getTweetId(), tweet2qqDO.getQqGroupId()), tweet2qqDO.toMap());
+            redisUtil.sSet(String.format(RedisKeysEnum.TWEET_QQ_TWEETID.val(), tweet2qqDO.getTweetId()), tweet2qqDO.getQqGroupId());
         }
         redisUtil.exec();
     }
 
     public void loadBiliAccount(){
         redisUtil.multi();
-        redisUtil.delete("bili_cookie_*");
+        redisUtil.delete(RedisKeysEnum.BILI_COOKIE_All.val());
         List<BiliAccountDO> biliAccountDOS = biliAccountDAO.selectByParamWithBLOBs(new BiliAccountParam());
         for (BiliAccountDO biliAccountDO : biliAccountDOS) {
             String cookie = biliAccountDO.getCookie();
@@ -67,20 +68,20 @@ public class LoadFromMysql {
             for (Map<String, Object> map : cookieList) {
                 realCookies.append(((String) map.get("name")).strip()).append("=").append(((String) map.get("value")).strip()).append(";");
             }
-            redisUtil.set(String.format("bili_cookie_%d", biliAccountDO.getBiliId()), realCookies.toString());
+            redisUtil.set(String.format(RedisKeysEnum.BILI_COOKIE_BILIID.val(), biliAccountDO.getBiliId()), realCookies.toString());
         }
         redisUtil.exec();
     }
 
     public void loadFollowBili(){
         redisUtil.multi();
-        redisUtil.delete("tweet_bili_*");
+        redisUtil.delete(RedisKeysEnum.TWEET_BILI_ALL.val());
         Tweet2biliParam param = new Tweet2biliParam();
         param.createCriteria().andFollowEqualTo(1);
         List<Tweet2biliDO> tweet2biliDOS = tweet2biliDAO.selectByParam(param);
         for (Tweet2biliDO tweet2biliDO : tweet2biliDOS) {
-            redisUtil.hSet(String.format("tweet_bili_%s_%d", tweet2biliDO.getTweetId(), tweet2biliDO.getBiliId()), tweet2biliDO.toMap());
-            redisUtil.sSet(String.format("tweet_bili_%s", tweet2biliDO.getTweetId()), tweet2biliDO.getBiliId());
+            redisUtil.hSet(String.format(RedisKeysEnum.TWEET_BILI_TWEETID_BILIID.val(), tweet2biliDO.getTweetId(), tweet2biliDO.getBiliId()), tweet2biliDO.toMap());
+            redisUtil.sSet(String.format(RedisKeysEnum.TWEET_BILI_TWEETID.val(), tweet2biliDO.getTweetId()), tweet2biliDO.getBiliId());
         }
         redisUtil.exec();
     }

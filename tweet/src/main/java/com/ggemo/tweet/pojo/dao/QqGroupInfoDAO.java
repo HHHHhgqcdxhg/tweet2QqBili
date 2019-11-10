@@ -34,7 +34,7 @@ public interface QqGroupInfoDAO {
      *
      * @mbg.generated
      */
-    int deleteByPrimaryKey(Integer groupId);
+    int deleteByPrimaryKey(Long groupId);
 
     /**
      * @param record
@@ -66,7 +66,7 @@ public interface QqGroupInfoDAO {
      *
      * @mbg.generated
      */
-    QqGroupInfoDO selectByPrimaryKey(Integer groupId);
+    QqGroupInfoDO selectByPrimaryKey(Long groupId);
 
     /**
      * @param record

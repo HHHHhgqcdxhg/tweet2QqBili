@@ -18,7 +18,7 @@ public class BiliAccountDO implements Serializable {
      *
      * @mbg.generated
      */
-    private Integer biliId;
+    private Long biliId;
 
     /**
      * Database Column Remarks:
@@ -42,7 +42,7 @@ public class BiliAccountDO implements Serializable {
      *
      * @mbg.generated
      */
-    public Integer getBiliId() {
+    public Long getBiliId() {
         return biliId;
     }
 
@@ -52,7 +52,7 @@ public class BiliAccountDO implements Serializable {
      *
      * @mbg.generated
      */
-    public void setBiliId(Integer biliId) {
+    public void setBiliId(Long biliId) {
         this.biliId = biliId;
     }
 

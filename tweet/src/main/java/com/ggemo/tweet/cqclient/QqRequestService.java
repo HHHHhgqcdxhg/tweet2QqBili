@@ -29,6 +29,7 @@ public class QqRequestService {
     @PostConstruct
     public void init() {
         this.cqHttpClient = new CqHttpClient(baseUrl);
+        this.start();
     }
 
     private void run() {

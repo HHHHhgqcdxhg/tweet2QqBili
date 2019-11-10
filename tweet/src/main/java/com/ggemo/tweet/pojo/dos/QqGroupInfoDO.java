@@ -20,7 +20,7 @@ public class QqGroupInfoDO implements Serializable {
      *
      * @mbg.generated
      */
-    private Integer groupId;
+    private Long groupId;
 
     /**
      * Database Column Remarks:
@@ -37,7 +37,7 @@ public class QqGroupInfoDO implements Serializable {
      *
      * @mbg.generated
      */
-    public Integer getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
@@ -47,7 +47,7 @@ public class QqGroupInfoDO implements Serializable {
      *
      * @mbg.generated
      */
-    public void setGroupId(Integer groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 

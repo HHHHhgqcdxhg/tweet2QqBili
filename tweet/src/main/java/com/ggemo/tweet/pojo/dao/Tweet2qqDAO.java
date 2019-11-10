@@ -35,7 +35,7 @@ public interface Tweet2qqDAO {
      *
      * @mbg.generated
      */
-    int deleteByPrimaryKey(@Param("tweetId") String tweetId, @Param("qqGroupId") Integer qqGroupId);
+    int deleteByPrimaryKey(@Param("tweetId") String tweetId, @Param("qqGroupId") Long qqGroupId);
 
     /**
      * @param record
@@ -68,7 +68,7 @@ public interface Tweet2qqDAO {
      *
      * @mbg.generated
      */
-    Tweet2qqDO selectByPrimaryKey(@Param("tweetId") String tweetId, @Param("qqGroupId") Integer qqGroupId);
+    Tweet2qqDO selectByPrimaryKey(@Param("tweetId") String tweetId, @Param("qqGroupId") Long qqGroupId);
 
     /**
      * @param record

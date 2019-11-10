@@ -35,7 +35,7 @@ public interface Tweet2biliDAO {
      *
      * @mbg.generated
      */
-    int deleteByPrimaryKey(@Param("tweetId") String tweetId, @Param("biliId") Integer biliId);
+    int deleteByPrimaryKey(@Param("tweetId") String tweetId, @Param("biliId") Long biliId);
 
     /**
      * @param record
@@ -68,7 +68,7 @@ public interface Tweet2biliDAO {
      *
      * @mbg.generated
      */
-    Tweet2biliDO selectByPrimaryKey(@Param("tweetId") String tweetId, @Param("biliId") Integer biliId);
+    Tweet2biliDO selectByPrimaryKey(@Param("tweetId") String tweetId, @Param("biliId") Long biliId);
 
     /**
      * @param record

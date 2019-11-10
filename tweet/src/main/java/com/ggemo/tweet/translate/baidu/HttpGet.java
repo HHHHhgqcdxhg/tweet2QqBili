@@ -36,8 +36,6 @@ class HttpGet {
 
             String sendUrl = getUrlWithQueryString(host, params);
 
-            // System.out.println("URL:" + sendUrl);
-
             URL uri = new URL(sendUrl); // 创建URL对象
             conn = (HttpURLConnection) uri.openConnection();
             if (conn instanceof HttpsURLConnection) {
@@ -60,8 +58,7 @@ class HttpGet {
                 builder.append(line);
             }
 
-            String text = builder.toString();
-            return text;
+            return builder.toString();
 
         }finally {
             close(br); // 关闭数据流

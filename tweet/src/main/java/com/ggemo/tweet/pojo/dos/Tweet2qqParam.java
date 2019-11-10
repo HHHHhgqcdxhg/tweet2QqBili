@@ -395,52 +395,52 @@ public class Tweet2qqParam {
             return (Criteria) this;
         }
 
-        public Criteria andQqGroupIdEqualTo(Integer value) {
+        public Criteria andQqGroupIdEqualTo(Long value) {
             addCriterion("qq_group_id =", value, "qqGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andQqGroupIdNotEqualTo(Integer value) {
+        public Criteria andQqGroupIdNotEqualTo(Long value) {
             addCriterion("qq_group_id <>", value, "qqGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andQqGroupIdGreaterThan(Integer value) {
+        public Criteria andQqGroupIdGreaterThan(Long value) {
             addCriterion("qq_group_id >", value, "qqGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andQqGroupIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andQqGroupIdGreaterThanOrEqualTo(Long value) {
             addCriterion("qq_group_id >=", value, "qqGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andQqGroupIdLessThan(Integer value) {
+        public Criteria andQqGroupIdLessThan(Long value) {
             addCriterion("qq_group_id <", value, "qqGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andQqGroupIdLessThanOrEqualTo(Integer value) {
+        public Criteria andQqGroupIdLessThanOrEqualTo(Long value) {
             addCriterion("qq_group_id <=", value, "qqGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andQqGroupIdIn(List<Integer> values) {
+        public Criteria andQqGroupIdIn(List<Long> values) {
             addCriterion("qq_group_id in", values, "qqGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andQqGroupIdNotIn(List<Integer> values) {
+        public Criteria andQqGroupIdNotIn(List<Long> values) {
             addCriterion("qq_group_id not in", values, "qqGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andQqGroupIdBetween(Integer value1, Integer value2) {
+        public Criteria andQqGroupIdBetween(Long value1, Long value2) {
             addCriterion("qq_group_id between", value1, value2, "qqGroupId");
             return (Criteria) this;
         }
 
-        public Criteria andQqGroupIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andQqGroupIdNotBetween(Long value1, Long value2) {
             addCriterion("qq_group_id not between", value1, value2, "qqGroupId");
             return (Criteria) this;
         }
