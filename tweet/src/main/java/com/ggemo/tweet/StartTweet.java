@@ -2,6 +2,7 @@ package com.ggemo.tweet;
 
 import com.ggemo.tweet.common.filter.Filter;
 import com.ggemo.tweet.common.filter.FollowFilter;
+import com.ggemo.tweet.common.filter.RtFilter;
 import com.ggemo.tweet.common.handler.GroupHandler;
 import com.ggemo.tweet.common.handler.LogHandler;
 import com.ggemo.tweet.common.handler.SendBiliHandler;
@@ -31,6 +32,9 @@ public class StartTweet {
     FollowFilter followFilter;
 
     @Autowired
+    RtFilter rtFilter;
+
+    @Autowired
     GroupHandler groupHandler;
 
     @Autowired
@@ -53,6 +57,7 @@ public class StartTweet {
         Set<Long> followsSet = follows.stream().map((x)->Long.parseLong((String)x)).collect(Collectors.toSet());
         followFilter.setFollows(followsSet);
         myStatusListener.addFilter(followFilter);
+        myStatusListener.addFilter(rtFilter);
 
         myStatusListener.addPreHandler(downloadImgPreHandler);
         myStatusListener.addPreHandler(textRemoveImgUrlPreHandler);
