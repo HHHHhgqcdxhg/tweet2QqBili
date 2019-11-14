@@ -3,6 +3,9 @@ package com.ggemo.tweet.tweet;
 import com.ggemo.tweet.common.StatusWrapper;
 import com.ggemo.tweet.common.filter.Filter;
 import com.ggemo.tweet.common.handler.Handler;
+import com.ggemo.tweet.common.prehandler.PreHandler;
+import com.ggemo.tweet.common.util.Image;
+import com.ggemo.tweet.common.util.ImageUtil;
 import com.ggemo.tweet.common.util.RedisUtil;
 import com.ggemo.tweet.cqclient.QqMq;
 import com.ggemo.tweet.pojo.dos.Tweet2qqDO;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component;
 import twitter4j.*;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +30,13 @@ public class MyStatusListener implements StatusListener {
 
     private List<Handler> handlers;
 
+    private List<PreHandler> preHandlers;
+
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private ImageUtil imageUtil;
 
     @Autowired
     private QqMq qqMq;
@@ -40,30 +49,43 @@ public class MyStatusListener implements StatusListener {
         this.filters.add(filter);
     }
 
+    public void addPreHandler(PreHandler preHandler){
+        this.preHandlers.add(preHandler);
+    }
+
     public void addHandler(Handler handler){
         this.handlers.add(handler);
     }
-
 
     @PostConstruct
     public void init(){
         this.filters = new ArrayList<>();
         this.handlers = new ArrayList<>();
+        this.preHandlers = new ArrayList<>();
     }
 
     @Override
     public void onStatus(Status status) {
-        StatusWrapper statusWrapper = new StatusWrapper(status,"");
+        StatusWrapper statusWrapper = new StatusWrapper(status);
         for (Filter filter : filters) {
             if(!filter.filter(statusWrapper)){
                 return;
             }
         }
 
-        String transed = translate.translate(status.getText());
-        statusWrapper.setTransed(transed);
+        for (PreHandler preHandler : preHandlers) {
+            log.info("执行preHandler: " + preHandler.getName());
+            preHandler.handle(statusWrapper);
+        }
+
         for (Handler handler : handlers) {
-            handler.handle(statusWrapper);
+            log.info("执行handler: " + handler.getName());
+            try {
+                handler.handle(statusWrapper);
+            }catch (RuntimeException e){
+                e.printStackTrace();
+                continue;
+            }
         }
     }
 
