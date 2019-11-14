@@ -56,7 +56,7 @@ public class GroupHandler implements Handler {
             Map<Object, Object> followerInfo = redisUtil.hget(String.format(RedisKeysEnum.TWEET_QQ_TWEETID_GROUPID.val(), userId, groupId));
             Tweet2qqDO tweet2qqDO = Tweet2qqDO.fromMap(followerInfo);
             log.info(String.format("向关注了 %s 的群 %d 发送消息", status.getUser().getName(), tweet2qqDO.getQqGroupId()));
-            sendMsg(tweet2qqDO.getQqGroupId().intValue(), tweet2qqDO.getFormat(), tweet2qqDO.getTweetNickName(), String.format("https://twitter.com/%s/status/%d", status.getUser().getName(), status.getId()), status.getText(),statusWrapper.getTransed(), statusWrapper.getImages());
+            sendMsg(tweet2qqDO.getQqGroupId().intValue(), tweet2qqDO.getFormat(), tweet2qqDO.getTweetNickName(), String.format("https://twitter.com/%s/status/%d", status.getUser().getScreenName(), status.getId()), status.getText(),statusWrapper.getTransed(), statusWrapper.getImages());
         }
     }
 }
