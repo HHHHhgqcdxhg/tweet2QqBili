@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 
-@Service("GoogleTranslate")
+//@Service("GoogleTranslate")
 public class GoogleTranslate implements Translate {
     @Value("${googleTranslate.projectId}")
     String projectId;

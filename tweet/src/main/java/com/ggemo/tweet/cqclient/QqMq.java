@@ -40,14 +40,7 @@ public class QqMq {
         }
     }
 
-    public Task take() {
-        while (true) {
-            try {
-                return queue.take();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                log.error("", e);
-            }
+    public Task take() throws InterruptedException {
+        return queue.take();
         }
-    }
 }

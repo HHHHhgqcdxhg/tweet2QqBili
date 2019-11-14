@@ -34,7 +34,12 @@ public class QqRequestService {
 
     private void run() {
         for (; ; ) {
-            QqMq.Task task = qqMq.take();
+            QqMq.Task task = null;
+            try {
+                task = qqMq.take();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             try {
                 cqHttpClient.sendGroupMsg(task.getQqGroup(), task.getMessasg());
             } catch (IOException e) {
