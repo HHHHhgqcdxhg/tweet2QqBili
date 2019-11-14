@@ -1,6 +1,7 @@
 package com.ggemo.tweet.common.handler;
 
 
+import com.alibaba.fastjson.JSONException;
 import com.ggemo.bilidynamicclient.BiliDynamicClient;
 import com.ggemo.bilidynamicclient.exception.BiliClientException;
 import com.ggemo.bilidynamicclient.response.impl.CreateResponse;
@@ -68,9 +69,16 @@ public class SendBiliHandler implements Handler {
             }
             if (tweet2biliDO.getTrans() == 1) {
                 try {
-                    biliClient.sendReply(dynamicId, statusWrapper.getTransed(), biliCookie);
-                } catch (IOException e) {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
                     e.printStackTrace();
+                    log.error(e.toString() + e.getMessage());
+                }
+                try {
+                    biliClient.sendReply(dynamicId, statusWrapper.getTransed(), biliCookie);
+                } catch (IOException | JSONException e ) {
+                    e.printStackTrace();
+                    log.error(e.toString() + e.getMessage());
                 }
             }
         }
