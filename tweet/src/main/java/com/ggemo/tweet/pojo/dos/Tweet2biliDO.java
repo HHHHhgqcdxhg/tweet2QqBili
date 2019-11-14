@@ -190,7 +190,7 @@ public class Tweet2biliDO implements Serializable {
     public static Tweet2biliDO fromMap(Map<Object, Object> map){
         Tweet2biliDO tweet2biliDO = new Tweet2biliDO();
         tweet2biliDO.setTweetId((String) map.get("tweetId"));
-        tweet2biliDO.setBiliId((Long) map.get("biliId" ));
+        tweet2biliDO.setBiliId(((Integer) map.get("biliId" )).longValue());
         tweet2biliDO.setFollow((Integer) map.get("follow" ));
         tweet2biliDO.setTrans((Integer) map.get("trans" ));
         tweet2biliDO.setFormat((String) map.get("format" ));

@@ -88,13 +88,14 @@ public class LoadFromMysql {
 
     public void loadAll() {
         redisUtil.multi();
-
-        redisUtil.flushAll();
-        loadFollowTweetList();
-        loadFollowQqGroups();
-        loadBiliAccount();
-        loadFollowBili();
-
-        redisUtil.exec();
+        try {
+            redisUtil.flushAll();
+            loadFollowTweetList();
+            loadFollowQqGroups();
+            loadBiliAccount();
+            loadFollowBili();
+        }finally {
+            redisUtil.exec();
+        }
     }
 }

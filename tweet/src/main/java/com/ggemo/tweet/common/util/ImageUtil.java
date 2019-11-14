@@ -21,13 +21,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 
 @Component
 public class ImageUtil {
     @Value("${image.saveDir}")
     private String saveDir;
 
-    @Value("image.publicBaseUrl")
+    @Value("${image.publicBaseUrl}")
     private String publicBaseUrl;
 
     private File dirPath;
@@ -51,7 +52,7 @@ public class ImageUtil {
         InputStream in = entity.getContent();
 
         String[] fileNameTmp = rawUrl.split("/");
-        String fileName = fileNameTmp[fileNameTmp.length - 1];
+        String fileName = fileNameTmp[fileNameTmp.length - 1].split("\\?")[0];
 
         String localPath = savePicToDisk(in, this.dirPath, fileName);
         String publicUrl = this.publicBaseUrl.concat(fileName);

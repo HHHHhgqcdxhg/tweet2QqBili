@@ -3,6 +3,7 @@ package com.ggemo.tweet.translate.baidu;
 import com.alibaba.fastjson.JSON;
 import com.ggemo.tweet.common.util.DecodeUnicode;
 import com.ggemo.tweet.pojo.vo.BaiduTransRes;
+import com.ggemo.tweet.translate.baidu.MD5;
 
 import java.io.IOException;
 import java.security.KeyManagementException;
@@ -41,7 +42,7 @@ public class TransApi {
 
         // 签名
         String src = appid + query + salt + securityKey; // 加密前的原文
-        params.put("sign", MD5.md5(src));
+        params.put("sign", com.ggemo.tweet.translate.baidu.MD5.md5(src));
 
         return params;
     }
