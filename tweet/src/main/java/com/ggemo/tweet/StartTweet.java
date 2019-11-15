@@ -1,5 +1,6 @@
 package com.ggemo.tweet;
 
+import com.ggemo.tweet.common.RedisKeysEnum;
 import com.ggemo.tweet.common.filter.Filter;
 import com.ggemo.tweet.common.filter.FollowFilter;
 import com.ggemo.tweet.common.filter.RtFilter;
@@ -7,6 +8,7 @@ import com.ggemo.tweet.common.handler.GroupHandler;
 import com.ggemo.tweet.common.handler.LogHandler;
 import com.ggemo.tweet.common.handler.SendBiliHandler;
 import com.ggemo.tweet.common.prehandler.DownloadImgPreHandler;
+import com.ggemo.tweet.common.prehandler.TagsPreHandler;
 import com.ggemo.tweet.common.prehandler.TextRemoveImgUrlPreHandler;
 import com.ggemo.tweet.common.prehandler.TranslatePreHandler;
 import com.ggemo.tweet.common.util.RedisUtil;
@@ -53,10 +55,10 @@ public class StartTweet {
     TranslatePreHandler translatePreHandler;
 
     @Autowired
-    TranslatePreHandler tagsPreHandler;
+    TagsPreHandler tagsPreHandler;
 
     public void listen() {
-        Set<Object> follows = redisUtil.sGet("tweets");
+        Set<Object> follows = redisUtil.sGet(RedisKeysEnum.TWEETS.val());
         Set<Long> followsSet = follows.stream().map((x)->Long.parseLong((String)x)).collect(Collectors.toSet());
         followFilter.setFollows(followsSet);
         myStatusListener.addFilter(followFilter);
