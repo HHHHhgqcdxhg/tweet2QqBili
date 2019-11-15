@@ -33,7 +33,7 @@ public class SendBiliHandler implements Handler {
     @Autowired
     RedisUtil redisUtil;
 
-    public BiliDynamicClient biliClient;
+    BiliDynamicClient biliClient;
 
     @PostConstruct
     public void init() {

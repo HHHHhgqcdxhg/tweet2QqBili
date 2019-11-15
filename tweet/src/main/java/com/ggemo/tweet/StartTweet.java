@@ -43,7 +43,7 @@ public class StartTweet {
     LogHandler logHandler;
 
     @Autowired
-    public SendBiliHandler sendBiliHandler;
+    SendBiliHandler sendBiliHandler;
 
     @Autowired
     DownloadImgPreHandler downloadImgPreHandler;
