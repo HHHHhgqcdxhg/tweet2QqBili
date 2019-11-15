@@ -20,12 +20,14 @@
 
     <dependencies>
 
+        <!-- https://github.com/HHHHhgqcdxhg/cqhttp-client -->
         <dependency>
             <groupId>com.ggemo</groupId>
             <artifactId>cqhttp-client</artifactId>
             <version>1.1-SNAPSHOT</version>
         </dependency>
 
+        <!-- https://github.com/HHHHhgqcdxhg/bili-dynamic-client -->
         <dependency>
             <groupId>com.ggemo</groupId>
             <artifactId>bili-dynamic-client</artifactId>
