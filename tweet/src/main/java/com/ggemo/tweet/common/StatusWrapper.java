@@ -15,7 +15,7 @@ public class StatusWrapper {
     Status status;
     String transed;
     List<Image> images;
-    String removedUrlText;
+    String text;
 
     public StatusWrapper(Status status) {
         this.status = status;

@@ -45,20 +45,20 @@ public class MyStatusListener implements StatusListener {
     @Qualifier("BaiduTranslate")
     Translate translate;
 
-    public void addFilter(Filter filter){
+    public void addFilter(Filter filter) {
         this.filters.add(filter);
     }
 
-    public void addPreHandler(PreHandler preHandler){
+    public void addPreHandler(PreHandler preHandler) {
         this.preHandlers.add(preHandler);
     }
 
-    public void addHandler(Handler handler){
+    public void addHandler(Handler handler) {
         this.handlers.add(handler);
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         this.filters = new ArrayList<>();
         this.handlers = new ArrayList<>();
         this.preHandlers = new ArrayList<>();
@@ -68,23 +68,28 @@ public class MyStatusListener implements StatusListener {
     public void onStatus(Status status) {
         StatusWrapper statusWrapper = new StatusWrapper(status);
         for (Filter filter : filters) {
-            if(!filter.filter(statusWrapper)){
+            if (!filter.filter(statusWrapper)) {
                 return;
             }
         }
 
         for (PreHandler preHandler : preHandlers) {
             log.info("执行preHandler: " + preHandler.getName());
-            preHandler.handle(statusWrapper);
+            try {
+                preHandler.handle(statusWrapper);
+            } catch (RuntimeException e) {
+                log.error(e.getMessage());
+                e.printStackTrace();
+            }
         }
 
         for (Handler handler : handlers) {
             log.info("执行handler: " + handler.getName());
             try {
                 handler.handle(statusWrapper);
-            }catch (RuntimeException e){
+            } catch (RuntimeException e) {
+                log.error(e.getMessage());
                 e.printStackTrace();
-                continue;
             }
         }
     }

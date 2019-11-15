@@ -52,6 +52,9 @@ public class StartTweet {
     @Autowired
     TranslatePreHandler translatePreHandler;
 
+    @Autowired
+    TranslatePreHandler tagsPreHandler;
+
     public void listen() {
         Set<Object> follows = redisUtil.sGet("tweets");
         Set<Long> followsSet = follows.stream().map((x)->Long.parseLong((String)x)).collect(Collectors.toSet());
@@ -62,6 +65,7 @@ public class StartTweet {
         myStatusListener.addPreHandler(downloadImgPreHandler);
         myStatusListener.addPreHandler(textRemoveImgUrlPreHandler);
         myStatusListener.addPreHandler(translatePreHandler);
+        myStatusListener.addPreHandler(tagsPreHandler);
 
         myStatusListener.addHandler(logHandler);
         myStatusListener.addHandler(groupHandler);
