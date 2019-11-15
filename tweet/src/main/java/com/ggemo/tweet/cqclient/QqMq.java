@@ -2,6 +2,7 @@ package com.ggemo.tweet.cqclient;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ public class QqMq {
 
     @Getter
     @AllArgsConstructor
+    @ToString
     public class Task {
         private int qqGroup;
         private String messasg;

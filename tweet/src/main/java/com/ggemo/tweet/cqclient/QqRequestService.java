@@ -37,23 +37,21 @@ public class QqRequestService {
             QqMq.Task task = null;
             try {
                 task = qqMq.take();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | RuntimeException e) {
                 e.printStackTrace();
             }
             try {
+                log.info("发起cqhttp发消息的请求: " + task);
                 cqHttpClient.sendGroupMsg(task.getQqGroup(), task.getMessasg());
-            } catch (IOException e) {
+            } catch (IOException | RuntimeException e) {
                 e.printStackTrace();
                 log.error("", e);
             }
-            while (true) {
-                try {
-                    Thread.sleep(qqSendMsgTimeWait);
-                    break;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    log.error("", e);
-                }
+            try {
+                Thread.sleep(qqSendMsgTimeWait);
+            } catch (InterruptedException | RuntimeException e) {
+                e.printStackTrace();
+                log.error("", e);
             }
         }
     }
