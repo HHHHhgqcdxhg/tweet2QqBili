@@ -4,6 +4,7 @@ import com.ggemo.tweet.common.util.Image;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import twitter4j.Status;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 public class StatusWrapper {
     Status status;
     String transed;
