@@ -43,6 +43,7 @@ public class SendBiliHandler implements Handler {
     @Override
     public void handle(StatusWrapper statusWrapper) {
         Status status = statusWrapper.getStatus();
+        String text = statusWrapper.getText();
         long userId = status.getUser().getId();
         Set<Object> followerSet = redisUtil.sGet(String.format(RedisKeysEnum.TWEET_BILI_TWEETID.val(), userId));
         for (Object o : followerSet) {
@@ -56,13 +57,13 @@ public class SendBiliHandler implements Handler {
                 CreateWithImgResponse res = null;
                 List<File> imgFiles = statusWrapper.getImages().stream().map((img) -> new File(img.getLocalPath())).collect(Collectors.toList());
                 try {
-                    dynamicId = create(imgFiles, status, biliCookie);
+                    dynamicId = create(imgFiles, text, biliCookie);
                 } catch (BiliClientException e) {
                     e.printStackTrace();
                 }
             } else {
                 try {
-                    dynamicId = create(status, biliCookie);
+                    dynamicId = create(text, biliCookie);
                 } catch (BiliClientException e) {
                     e.printStackTrace();
                 }
@@ -84,11 +85,11 @@ public class SendBiliHandler implements Handler {
         }
     }
 
-    private String create(Status status, String biliCookie) throws BiliClientException {
+    private String create(String text, String biliCookie) throws BiliClientException {
         CreateResponse res;
         while (true) {
             try {
-                res = biliClient.create(status.getText(), biliCookie);
+                res = biliClient.create(text, biliCookie);
                 log.info("发送bili动态res:" + res.toString());
                 break;
             } catch (IOException | BiliClientException e) {
@@ -98,11 +99,11 @@ public class SendBiliHandler implements Handler {
         return res.getData().getDynamicIdStr();
     }
 
-    private String create(List<File> imgFiles, Status status, String biliCookie) throws BiliClientException {
+    private String create(List<File> imgFiles, String text, String biliCookie) throws BiliClientException {
         CreateWithImgResponse res;
         while (true) {
             try {
-                res = biliClient.create(imgFiles, status.getText(), biliCookie);
+                res = biliClient.create(imgFiles, text, biliCookie);
                 break;
             } catch (IOException | BiliClientException | InterruptedException e) {
                 e.printStackTrace();

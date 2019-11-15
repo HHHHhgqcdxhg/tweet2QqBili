@@ -26,19 +26,22 @@ public class GroupHandler implements Handler {
     @Autowired
     QqMq qqMq;
 
-    private void sendMsg(int qqGroup, String format, String tweetNickName, String url, String content, String trans, List<Image> images) {
+    private String sendMsg(int qqGroup, String format, String tweetNickName, String url, String content, String trans, List<Image> images) {
         StringBuilder contentBuilder = new StringBuilder(content);
         for (Image image : images){
             contentBuilder.append(String.format("[CQ:image,file=%s]", image.getPublicUrl()));
         }
         content = contentBuilder.toString();
+        StringBuilder sb = new StringBuilder();
         for (String s : format.split("\\|fgf\\|")) {
             s = s.replace("{tweet_nick_name}", tweetNickName)
                     .replace("{url}", url)
                     .replace("{content}", content)
                     .replace("{trans}", trans);
             qqMq.put(qqMq.new Task(qqGroup, s));
+            sb.append(s).append("|fgf|");
         }
+        return sb.toString();
     }
 
     @Override
@@ -55,8 +58,8 @@ public class GroupHandler implements Handler {
             Integer groupId = (Integer) o;
             Map<Object, Object> followerInfo = redisUtil.hget(String.format(RedisKeysEnum.TWEET_QQ_TWEETID_GROUPID.val(), userId, groupId));
             Tweet2qqDO tweet2qqDO = Tweet2qqDO.fromMap(followerInfo);
-            log.info(String.format("向关注了 %s 的群 %d 发送消息", status.getUser().getName(), tweet2qqDO.getQqGroupId()));
-            sendMsg(tweet2qqDO.getQqGroupId().intValue(), tweet2qqDO.getFormat(), tweet2qqDO.getTweetNickName(), String.format("https://twitter.com/%s/status/%d", status.getUser().getScreenName(), status.getId()), status.getText(),statusWrapper.getTransed(), statusWrapper.getImages());
+            String msg = sendMsg(tweet2qqDO.getQqGroupId().intValue(), tweet2qqDO.getFormat(), tweet2qqDO.getTweetNickName(), String.format("https://twitter.com/%s/status/%d", status.getUser().getScreenName(), status.getId()), statusWrapper.getText(),statusWrapper.getTransed(), statusWrapper.getImages());
+            log.info(String.format("向关注了 %s 的群 %d 发送消息: %s", status.getUser().getName(), tweet2qqDO.getQqGroupId(), msg));
         }
     }
 }
