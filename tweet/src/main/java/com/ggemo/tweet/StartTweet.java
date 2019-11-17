@@ -73,12 +73,8 @@ public class StartTweet {
         myStatusListener.addHandler(groupHandler);
         myStatusListener.addHandler(sendBiliHandler);
 
-        long[] followArray = new long[followsSet.size()];
-        int i = 0;
-        for (Long aLong : followsSet) {
-            followArray[i] = aLong;
-            i += 1;
-        }
+
+        long[] followArray = followsSet.stream().mapToLong(Long::valueOf).toArray();
         TwitterStream stream = new TwitterStreamFactory().getInstance();
 
         FilterQuery filterQuery = new FilterQuery();
