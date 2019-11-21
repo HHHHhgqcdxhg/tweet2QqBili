@@ -6,4 +6,8 @@ public interface PreHandler {
     StatusWrapper handle(StatusWrapper statusWrapper);
 
     String getName();
+
+    default int getOrder(){
+        return -1;
+    }
 }
