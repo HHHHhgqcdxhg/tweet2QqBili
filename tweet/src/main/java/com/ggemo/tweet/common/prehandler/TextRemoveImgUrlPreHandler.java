@@ -15,8 +15,7 @@ public class TextRemoveImgUrlPreHandler implements PreHandler {
     private static final String NAME = "TextRemoveImgUrlPreHandler";
     @Override
     public StatusWrapper handle(StatusWrapper statusWrapper) {
-        Status status = statusWrapper.getStatus();
-        String text = status.getText();
+        String text = statusWrapper.getText();
         statusWrapper.setText(removeUrl(text));
         return statusWrapper;
     }

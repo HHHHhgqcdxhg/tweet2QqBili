@@ -67,6 +67,11 @@ public class MyStatusListener implements StatusListener {
     @Override
     public void onStatus(Status status) {
         StatusWrapper statusWrapper = new StatusWrapper(status);
+
+        if (status == null) {
+            return;
+        }
+
         for (Filter filter : filters) {
             if (!filter.filter(statusWrapper)) {
                 return;

@@ -66,8 +66,9 @@ public class StartTweet {
 
         myStatusListener.addPreHandler(downloadImgPreHandler);
         myStatusListener.addPreHandler(textRemoveImgUrlPreHandler);
-        myStatusListener.addPreHandler(translatePreHandler);
         myStatusListener.addPreHandler(tagsPreHandler);
+        myStatusListener.addPreHandler(translatePreHandler);
+
 
         myStatusListener.addHandler(logHandler);
         myStatusListener.addHandler(groupHandler);

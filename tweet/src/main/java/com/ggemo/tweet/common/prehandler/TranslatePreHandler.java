@@ -17,23 +17,21 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class TranslatePreHandler implements PreHandler{
+public class TranslatePreHandler implements PreHandler {
     private static final String NAME = "TranslatePreHandler";
     @Autowired
     @Qualifier("BaiduTranslate")
     Translate translate;
 
-
-
     @Override
     public StatusWrapper handle(StatusWrapper statusWrapper) {
-        Status status = statusWrapper.getStatus();
         log.info("请求翻译");
-        String transed = translate.translate(status.getText());
+        String transed = translate.translate(statusWrapper.getText());
         statusWrapper.setTransed(transed);
         log.info(String.format("transed: %s", transed));
         return statusWrapper;
     }
+
     @Override
     public String getName() {
         return NAME;

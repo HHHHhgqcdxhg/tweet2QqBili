@@ -21,5 +21,6 @@ public class StatusWrapper {
 
     public StatusWrapper(Status status) {
         this.status = status;
+        this.text = status.getText();
     }
 }
