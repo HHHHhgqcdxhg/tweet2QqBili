@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Slf4j
-@Order(value = 1)
+@Order(value = 2)
 @Component
 class TweetApplicationRunner implements org.springframework.boot.ApplicationRunner {
 
@@ -19,6 +19,7 @@ class TweetApplicationRunner implements org.springframework.boot.ApplicationRunn
 
     @Override
     public void run(ApplicationArguments args){
+        log.info("run TweetApplicationRunner");
         ExecutorService pool = Executors.newSingleThreadExecutor((r) -> {
             Thread t = new Thread(r);
             t.setName("监听推特的线程");

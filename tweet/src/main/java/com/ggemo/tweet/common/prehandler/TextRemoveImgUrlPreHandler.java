@@ -40,6 +40,9 @@ public class TextRemoveImgUrlPreHandler implements PreHandler {
             splited.add(text.substring(start, end));
             along.add(true);
         }
+        if(splited.size() == 0){
+            return text;
+        }
         int i;
         boolean add = false;
         StringBuilder sb = new StringBuilder();
