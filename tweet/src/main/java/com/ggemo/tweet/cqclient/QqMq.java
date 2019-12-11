@@ -26,7 +26,7 @@ public class QqMq {
     private BlockingQueue<Task> queue;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         queue = new LinkedBlockingQueue<>();
     }
 
@@ -44,5 +44,5 @@ public class QqMq {
 
     public Task take() throws InterruptedException {
         return queue.take();
-        }
+    }
 }
