@@ -30,16 +30,8 @@ public class QqMq {
         queue = new LinkedBlockingQueue<>();
     }
 
-    public void put(Task task) {
-        while (true) {
-            try {
-                queue.put(task);
-                return;
-            } catch (InterruptedException e) {
-                log.error("", e);
-                e.printStackTrace();
-            }
-        }
+    public void put(Task task) throws InterruptedException {
+        queue.put(task);
     }
 
     public Task take() throws InterruptedException {

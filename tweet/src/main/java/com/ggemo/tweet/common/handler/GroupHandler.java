@@ -26,9 +26,9 @@ public class GroupHandler implements Handler {
     @Autowired
     QqMq qqMq;
 
-    private String sendMsg(int qqGroup, String format, String tweetNickName, String url, String content, String trans, List<Image> images) {
+    private String sendMsg(int qqGroup, String format, String tweetNickName, String url, String content, String trans, List<Image> images, String biliDynamicUrl) {
         StringBuilder contentBuilder = new StringBuilder(content);
-        for (Image image : images){
+        for (Image image : images) {
             contentBuilder.append(String.format("[CQ:image,file=%s]", image.getPublicUrl()));
         }
         content = contentBuilder.toString();
@@ -38,8 +38,15 @@ public class GroupHandler implements Handler {
                     .replace("{url}", url)
                     .replace("{content}", content)
                     .replace("{trans}", trans);
-            qqMq.put(qqMq.new Task(qqGroup, s));
-            sb.append(s).append("|fgf|");
+            if (biliDynamicUrl != null && !biliDynamicUrl.isEmpty() && !biliDynamicUrl.isBlank()) {
+                s = s.replace("{bili_dynamic_url}", biliDynamicUrl);
+            }
+            try {
+                qqMq.put(qqMq.new Task(qqGroup, s));
+            } catch (InterruptedException e) {
+                log.error(e.toString());
+            }
+            sb.append(s);
         }
         return sb.toString();
     }
@@ -58,7 +65,7 @@ public class GroupHandler implements Handler {
             Integer groupId = (Integer) o;
             Map<Object, Object> followerInfo = redisUtil.hget(String.format(RedisKeysEnum.TWEET_QQ_TWEETID_GROUPID.val(), userId, groupId));
             Tweet2qqDO tweet2qqDO = Tweet2qqDO.fromMap(followerInfo);
-            String msg = sendMsg(tweet2qqDO.getQqGroupId().intValue(), tweet2qqDO.getFormat(), tweet2qqDO.getTweetNickName(), String.format("https://twitter.com/%s/status/%d", status.getUser().getScreenName(), status.getId()), statusWrapper.getText(),statusWrapper.getTransed(), statusWrapper.getImages());
+            String msg = sendMsg(tweet2qqDO.getQqGroupId().intValue(), tweet2qqDO.getFormat(), tweet2qqDO.getTweetNickName(), String.format("https://twitter.com/%s/status/%d", status.getUser().getScreenName(), status.getId()), statusWrapper.getText(), statusWrapper.getTransed(), statusWrapper.getImages(), statusWrapper.getBiliDynamicUrl());
             log.info(String.format("向关注了 %s 的群 %d 发送消息: %s", status.getUser().getName(), tweet2qqDO.getQqGroupId(), msg));
         }
     }

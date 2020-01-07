@@ -1,12 +1,11 @@
 package com.ggemo.tweet;
 
 import com.ggemo.tweet.common.RedisKeysEnum;
-import com.ggemo.tweet.common.filter.Filter;
 import com.ggemo.tweet.common.filter.FollowFilter;
 import com.ggemo.tweet.common.filter.RtFilter;
 import com.ggemo.tweet.common.handler.GroupHandler;
 import com.ggemo.tweet.common.handler.LogHandler;
-import com.ggemo.tweet.common.handler.SendBiliHandler;
+import com.ggemo.tweet.common.prehandler.SendBiliPreHandler;
 import com.ggemo.tweet.common.prehandler.DownloadImgPreHandler;
 import com.ggemo.tweet.common.prehandler.TagsPreHandler;
 import com.ggemo.tweet.common.prehandler.TextRemoveImgUrlPreHandler;
@@ -43,7 +42,7 @@ public class StartTweet {
     LogHandler logHandler;
 
     @Autowired
-    SendBiliHandler sendBiliHandler;
+    SendBiliPreHandler sendBiliPreHandler;
 
     @Autowired
     DownloadImgPreHandler downloadImgPreHandler;
@@ -68,11 +67,10 @@ public class StartTweet {
         myStatusListener.addPreHandler(textRemoveImgUrlPreHandler);
         myStatusListener.addPreHandler(tagsPreHandler);
         myStatusListener.addPreHandler(translatePreHandler);
-
+        myStatusListener.addPreHandler(sendBiliPreHandler);
 
         myStatusListener.addHandler(logHandler);
         myStatusListener.addHandler(groupHandler);
-        myStatusListener.addHandler(sendBiliHandler);
 
 
         long[] followArray = followsSet.stream().mapToLong(Long::valueOf).toArray();

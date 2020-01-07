@@ -18,6 +18,7 @@ public class StatusWrapper {
     String transed;
     List<Image> images;
     String text;
+    String biliDynamicUrl;
 
     public StatusWrapper(Status status) {
         this.status = status;

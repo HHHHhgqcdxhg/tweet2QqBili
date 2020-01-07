@@ -38,7 +38,8 @@ public class QqRequestService {
             try {
                 task = qqMq.take();
             } catch (InterruptedException | RuntimeException e) {
-                e.printStackTrace();
+                log.error(e.toString());
+                continue;
             }
             try {
                 log.info("发起cqhttp发消息的请求: " + task);

@@ -1,4 +1,4 @@
-package com.ggemo.tweet.common.handler;
+package com.ggemo.tweet.common.prehandler;
 
 
 import com.alibaba.fastjson.JSONException;
@@ -6,15 +6,14 @@ import com.ggemo.bilidynamicclient.BiliDynamicClient;
 import com.ggemo.bilidynamicclient.exception.BiliClientException;
 import com.ggemo.bilidynamicclient.response.impl.CreateResponse;
 import com.ggemo.bilidynamicclient.response.impl.CreateWithImgResponse;
+import com.ggemo.bilidynamicclient.response.impl.SendReplyResponse;
 import com.ggemo.tweet.common.RedisKeysEnum;
 import com.ggemo.tweet.common.StatusWrapper;
 import com.ggemo.tweet.common.util.RedisUtil;
 import com.ggemo.tweet.pojo.dos.Tweet2biliDO;
-import jdk.jfr.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import redis.clients.jedis.Client;
 import twitter4j.Status;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class SendBiliHandler implements Handler {
+public class SendBiliPreHandler implements PreHandler {
     private static final String NAME = "SendBiliHandler";
 
     @Autowired
@@ -41,7 +40,7 @@ public class SendBiliHandler implements Handler {
     }
 
     @Override
-    public void handle(StatusWrapper statusWrapper) {
+    public StatusWrapper handle(StatusWrapper statusWrapper) {
         Status status = statusWrapper.getStatus();
         String text = statusWrapper.getText();
         long userId = status.getUser().getId();
@@ -68,7 +67,8 @@ public class SendBiliHandler implements Handler {
                     e.printStackTrace();
                 }
             }
-            if (tweet2biliDO.getTrans() == 1) {
+            if (dynamicId != null && tweet2biliDO.getTrans() == 1) {
+                statusWrapper.setBiliDynamicUrl("https://t.bilibili.com/" + dynamicId);
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -76,13 +76,14 @@ public class SendBiliHandler implements Handler {
                     log.error(e.toString() + e.getMessage());
                 }
                 try {
-                    biliClient.sendReply(dynamicId, statusWrapper.getTransed(), biliCookie);
-                } catch (IOException | JSONException e ) {
+                    SendReplyResponse res = biliClient.sendReply(dynamicId, statusWrapper.getTransed(), biliCookie);
+                } catch (IOException | JSONException e){
                     e.printStackTrace();
                     log.error(e.toString() + e.getMessage());
                 }
             }
         }
+        return statusWrapper;
     }
 
     private String create(String text, String biliCookie) throws BiliClientException {
